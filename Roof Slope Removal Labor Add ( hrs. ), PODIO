@@ -1,0 +1,30 @@
+//last updated 8/16/2020
+//added condition for minimum of 24 hrs when there is a very steep roof
+
+//last change: very steep from 0.4 to 0.165, glst roof from .5 to .15, to match calc
+var removal_roof_slope_labor_add = 0;
+var num_panel = @Number of panels;
+var removal_steep_roof = .1;// additional hours
+var removal_very_steep_roof = .165;// additional hours
+var removal_flat_roof = .15;// the flat roof is a 1st iteration guess
+var slope = @Roof Slope;
+
+switch (slope){
+  case"Not Steep (6/12 or less)":
+    removal_roof_slope_labor_add = 0;
+  break;
+  case "Steep Roof (6/12 to 8/12)":
+    removal_roof_slope_labor_add = num_panel * removal_steep_roof;
+  break;
+  case "Very Steep (9/12 or more )":
+    removal_roof_slope_labor_add = num_panel * removal_very_steep_roof;
+    if ( ( removal_roof_slope_labor_add + @Number of panels Removal labor add ( hrs. ) + @Number of Arrays Removal Labor Add ( hrs. ) ) < 24 ){
+        removal_roof_slope_labor_add = 24-@Number of panels Removal labor add ( hrs. )-@Number of Arrays Removal Labor Add ( hrs. );
+    }
+  break;
+  case "Flat Roof":
+    removal_roof_slope_labor_add = removal_flat_roof*num_panel;
+  break;
+}
+
+removal_roof_slope_labor_add;
